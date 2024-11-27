@@ -41,7 +41,6 @@ export const TransactionsProvider = ({ children }) => {
     try {
       if (!ethereum) throw new Error("Please install MetaMask.");
       
-      // Wait for contract creation
       const transactionsContract = await createEthereumContract();
 
       const availableTransactions = await transactionsContract.getAllTransactions();
@@ -101,7 +100,7 @@ export const TransactionsProvider = ({ children }) => {
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
       setCurrentAccount(accounts[0]);
-      await getAllTransactions(); // Fetch transactions after connecting
+      await getAllTransactions(); 
     } catch (error) {
       console.error("Error connecting wallet:", error);
       throw error;
@@ -137,7 +136,7 @@ export const TransactionsProvider = ({ children }) => {
       const transactionsCount = await transactionsContract.getTransactionCount();
       setTransactionCount(transactionsCount.toString());
       
-      await getAllTransactions(); // Refresh transactions after sending
+      await getAllTransactions();
     } catch (error) {
       console.error("Error sending transaction:", error);
       throw error;
@@ -147,7 +146,7 @@ export const TransactionsProvider = ({ children }) => {
   useEffect(() => {
     checkIfWalletIsConnect();
     checkIfTransactionsExists();
-  }, []); // Remove transactionCount dependency
+  }, []);
 
   return (
     <TransactionContext.Provider
